@@ -1,23 +1,11 @@
 <template>
 <div class="login">
     <v-card class="elevation-12">
-        <v-toolbar dark color="indigo">
+        <v-toolbar dark color="indigo darken-3">
             <v-toolbar-title class="text-uppercase">{{ loginLabel }}</v-toolbar-title>
         </v-toolbar>
-        <v-card-text>
-            <v-form>
-                <v-text-field prepend-icon="person" name="id" type="text" v-model="id">
-                    <template v-slot:label>{{ idLabel }}</template>
-                </v-text-field>
-                <v-text-field prepend-icon="lock" name="password" id="password" type="password" v-model="password">
-                    <template v-slot:label>{{ passwordLabel }}</template>
-                </v-text-field>
-            </v-form>
-        </v-card-text>
         <v-card-actions>
-            <v-btn dark color="deep-purple darken-3" @click="moveToJoinPage">{{ joinLabel }}</v-btn>
-            <v-spacer></v-spacer>
-            <v-btn dark color="indigo darken-3" @click="loginPost">{{ loginLabel }}</v-btn>
+            <v-btn block dark color="indigo" @click="loginFb">{{ loginWithFb }}</v-btn>
         </v-card-actions>
     </v-card>
 </div>
@@ -25,35 +13,38 @@
 
 <script>
 import router from '../router'
+import FbHelper from '@/modules/fbhelper.js'
 
 export default {
     name: "LoginForm",
     data() {
         return {
-            id: '',
-            password: '',
-            idLabel: 'ID',
-            passwordLabel: 'Password',
-            loginLabel: 'Log In',
-            joinLabel: 'Join'
+            loginLabel: 'Login',
+            loginWithFb: 'Facebook Login'
         }
     },
     methods: {
-        loginPost: function () {
-            let form = new FormData()
-            form.append('id', this.id)
-            form.append('password', this.password)
+        loginFb: function () {
+            /** TODO : 서버에 facebook id와 name을 저장하도록 수정이 필요 */
+            const fbHelper = new FbHelper();
 
-            this.axios.post(`${process.env.VUE_APP_API_URL}/login`, form).then(function () {
-                alert("Log in 성공")
-
-                router.push("/member_list")
-            }, function () {
-                alert("Log in 실패")
+            fbHelper.getFbLoginStatus(response => {
+                console.log(response)
             })
-        },
-        moveToJoinPage: function () {
-            router.push("/join")
+
+            fbHelper.fbLogin(response => {
+                if (response.status === 'connected') {
+                    fbHelper.fbApi(response => {
+                        console.log(response);
+                    })
+
+                    this.$store.commit('login');
+
+                    router.push('/');
+                } else {
+                    alert("Facebook login 실패")
+                }
+            })
         }
     }
 }
