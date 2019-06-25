@@ -39,27 +39,35 @@ export default class FbHelper {
         FbHelper.instance = this;
     }
 
-    fbLogin(onSuccessed) {
-        FbHelper.promise.then(() => {
-            window.FB.login(response => onSuccessed(response))
+    fbLogin() {
+        return new Promise(resolve => {
+            FbHelper.promise.then(() => {
+                window.FB.login(response => resolve(response))
+            })
         })
     }
 
-    async fbLogout(onSuccessed) {
-        FbHelper.promise.then(() => {
-            window.FB.logout(response => onSuccessed(response))
+    fbLogout() {
+        return new Promise(resolve => {
+            FbHelper.promise.then(() => {
+                window.FB.logout(response => resolve(response))
+            })
         })
     }
 
-    async getFbLoginStatus(onSuccessed) {
-        FbHelper.promise.then(() => {
-            window.FB.getLoginStatus(response => onSuccessed(response))
+    getFbLoginStatus() {
+        return new Promise(resolve => {
+            FbHelper.promise.then(() => {
+                window.FB.getLoginStatus(response => resolve(response))
+            })
         })
     }
 
-    async fbApi(onSuccessed) {
-        FbHelper.promise.then(() => {
-            window.FB.api('/me', response => onSuccessed(response))
+    fbApi() {
+        return new Promise(resolve => {
+            FbHelper.promise.then(() => {
+                window.FB.api('/me', response => resolve(response))
+            })
         })
     }
 }

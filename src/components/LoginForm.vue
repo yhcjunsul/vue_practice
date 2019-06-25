@@ -13,7 +13,6 @@
 
 <script>
 import router from '../router'
-import FbHelper from '@/modules/fbhelper.js'
 
 export default {
     name: "LoginForm",
@@ -25,25 +24,13 @@ export default {
     },
     methods: {
         loginFb: function () {
-            /** TODO : 서버에 facebook id와 name을 저장하도록 수정이 필요 */
-            const fbHelper = new FbHelper();
-
-            fbHelper.getFbLoginStatus(response => {
+            /** TODO : 서버에 facebook id를 저장하도록 수정이 필요 */
+            this.$store.dispatch('login').then(response => {
                 console.log(response)
-            })
-
-            fbHelper.fbLogin(response => {
-                if (response.status === 'connected') {
-                    fbHelper.fbApi(response => {
-                        console.log(response);
-                    })
-
-                    this.$store.commit('login');
-
-                    router.push('/');
-                } else {
-                    alert("Facebook login 실패")
-                }
+                router.push('/');
+            }, response => {
+                console.log(response);
+                alert("Login 실패");
             })
         }
     }
