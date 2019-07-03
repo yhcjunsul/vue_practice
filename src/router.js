@@ -11,23 +11,17 @@ export default new Router({
             component: Home
         },
         {
-            path: '/join',
-            name: 'join',
-            // route level code-splitting
-            // this generates a separate chunk (about.[hash].js) for this route
-            // which is lazy-loaded when the route is visited.
+            path: '/postedit',
+            name: 'postedit',
             component: () =>
-                import ( /* webpackChunkName: "join" */ './views/Join.vue')
-        },
-        {
-            path: '/member_list',
-            name: 'member_list',
-            component: () =>
-                import ( /* webpackChunkName: "member_list" */ './views/MemberList.vue')
+                import ( /* webpackChunkName: "postedit" */ './views/PostEdit.vue')
         },
         {
             path: '/login',
             name: 'login',
+            // route level code-splitting
+            // this generates a separate chunk (about.[hash].js) for this route
+            // which is lazy-loaded when the route is visited.
             component: () =>
                 import ( /* webpackChunkName: "login" */ './views/Login.vue')
         }
