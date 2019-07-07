@@ -17,6 +17,12 @@ export default new Router({
                 import ( /* webpackChunkName: "postedit" */ './views/PostEdit.vue')
         },
         {
+            path: '/postview',
+            name: 'postview',
+            component: () =>
+                import ( /* webpackChunkName: "postview" */ './views/PostView.vue')
+        },
+        {
             path: '/login',
             name: 'login',
             // route level code-splitting

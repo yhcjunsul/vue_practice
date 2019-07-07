@@ -31,6 +31,8 @@
 
 <script>
 import PostEditorForm from '@/components/PostEditorForm.vue'
+import * as types from '@/vuex/mutation_types.js'
+import router from '../router'
 
 export default {
     name: 'postedit',
@@ -47,6 +49,21 @@ export default {
         submitContents() {
             console.log('title: ' + this.title);
             console.log('contents: ' + this.editorContents);
+
+            if (this.title === '') {
+                alert('제목을 입력하세요')
+                return
+            }
+
+            if (this.editorContents === '') {
+                alert('내용을 입력하세요')
+                return
+            }
+
+            this.$store.commit(types.POST_TITLE, this.title);
+            this.$store.commit(types.POST_CONTENTS, this.editorContents);
+            this.$store.commit(types.POST_DATE, Date.now());
+            router.push('/postview');
         }
     }
 }

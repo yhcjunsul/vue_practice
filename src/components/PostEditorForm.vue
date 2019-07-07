@@ -14,6 +14,7 @@ import {
 import ImageResize from "quill-image-resize";
 
 export default {
+    name: "PostEditorForm",
     components: {
         VueEditor
     },
@@ -28,12 +29,12 @@ export default {
                 {
                     alias: "imageResize",
                     module: ImageResize
-                }
+                },
             ],
             editorSettings: {
                 modules: {
                     imageDrop: true,
-                    imageResize: {}
+                    imageResize: {},
                 }
             }
         }
