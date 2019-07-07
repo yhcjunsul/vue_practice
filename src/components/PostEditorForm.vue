@@ -10,7 +10,7 @@ import {
 } from "vue2-editor";
 import {
     ImageDrop
-} from 'quill-image-drop-module'
+} from 'quill-image-drop-module';
 import ImageResize from "quill-image-resize";
 
 export default {
@@ -41,7 +41,7 @@ export default {
     },
     watch: {
         editorContents: function (newContents) {
-            this.$emit('update:contents', newContents)
+            this.$emit('update:contents', newContents);
         }
     }
 }

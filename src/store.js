@@ -11,12 +11,14 @@ export default new Vuex.Store({
         postContents: '',
         postTitle: '',
         postDate: 0,
+        commentItemList: [],
     },
     getters: {
         getIsLogined: state => state.isLogined,
         getPostContents: state => state.postContents,
         getPostTitle: state => state.postTitle,
         getPostDate: state => state.postDate,
+        getCommentItemList: state => state.commentItemList,
     },
     mutations: {
         [mutation_types.IS_LOGINED](state, isLogined) {
@@ -31,6 +33,9 @@ export default new Vuex.Store({
         [mutation_types.POST_DATE](state, postDate) {
             state.postDate = postDate
         },
+        [mutation_types.COMMENT_ITEM_LIST](state, commentItem) {
+            state.commentItemList.push(commentItem)
+        }
     },
     actions: {
         login({ commit }) {
