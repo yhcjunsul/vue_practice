@@ -1,57 +1,45 @@
 <template>
-<v-layout justify-center>
-    <v-flex md6 sm10 xs12>
-        <v-card>
-            <v-toolbar dark color="grey darken-4">
-                <v-toolbar-title>
-                    댓글 쓰기
-                </v-toolbar-title>
-            </v-toolbar>
-            <v-card-actions class="pb-0">
-                <v-textarea class="mb-0" flat outline v-model="editorContents" :placeholder="editorPlaceholder">
-                </v-textarea>
-            </v-card-actions>
-            <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn dark color="grey darken-3" @click="addComment">
-                    작성
-                </v-btn>
-            </v-card-actions>
-        </v-card>
-    </v-flex>
-</v-layout>
+<v-container>
+    <v-layout row wrap>
+        <v-flex xs12>
+            <v-textarea class="mb-0" flat outline v-bind:maxlength="maxLength" v-model="editorContents" :placeholder="editorPlaceholder" v-on:input="updateLength">
+            </v-textarea>
+        </v-flex>
+    </v-layout>
+    <v-layout justify-end>
+        {{currentLength}} / {{maxLength}}
+        <v-btn class="mb-0 mt-0" dark color="grey darken-3" @click="submitComment">
+            {{submitBtnLabel}}
+        </v-btn>
+    </v-layout>
+</v-container>
 </template>
 
 <script>
-import * as types from '@/vuex/mutation_types.js';
-
 export default {
     name: "PostCommentEditorForm",
     data() {
         return {
             editorPlaceholder: '주제와 무관하거나 타인의 명예를 훼손하거나 타인의 권리를 침해하는 게시물은 별도의 통보없이 제재를 받을 수 있습니다.',
             editorContents: '',
-        }
-    },
-    watch: {
-        editorContents: function (newContents) {
-            this.$emit('update:contents', newContents);
+            maxLength: 1000,
+            currentLength: 0,
+            submitBtnLabel: '작성',
         }
     },
     methods: {
-        addComment() {
+        submitComment() {
             if (this.editorContents === '') {
                 alert('내용을 입력하세요');
                 return;
             }
 
-            let commentItem = {
-                date: Date.now(),
-                contents: this.editorContents,
-            }
-
-            this.$store.commit(types.COMMENT_ITEM_LIST, commentItem);
+            this.$emit('update:contents', this.editorContents);
             this.editorContents = '';
+            this.currentLength = 0;
+        },
+        updateLength() {
+            this.currentLength = this.editorContents.length;
         }
     }
 }

@@ -4,25 +4,12 @@
         <v-card>
             <v-toolbar dark color="blue-grey darken-4">
                 <v-toolbar-title>
-                    댓글({{commentCount}})
+                    {{commentLabel}}({{commentCount}})
                 </v-toolbar-title>
             </v-toolbar>
-            <template v-for="(commentItem, index) in commentItemList">
-                <v-card :key="index">
-                    <v-card-title class="pb-0">
-                        <div>
-                        <div v-html="commentItem.contents">
-                        </div>
-                            {{ commentItem.date }}
-                        </div>
-                    </v-card-title>
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <ReportForm :reportButtonLabel="reportButtonLabel" :reportReasons="reportReasons" @update:reportId="reportId => reportComment(reportId)">
-                        </ReportForm>
-                        <v-btn flat>댓글 작성</v-btn>
-                    </v-card-actions>
-                </v-card>
+            <PostCommentEditorForm class="pb-2" @update:contents="contents => addComment(contents)"></PostCommentEditorForm>
+            <template v-for="commentItem in commentList">
+                <PostCommentForm :key="commentItem.id" :commentItem="commentItem"></PostCommentForm>
             </template>
         </v-card>
     </v-flex>
@@ -30,47 +17,34 @@
 </template>
 
 <script>
-import ReportForm from '@/components/ReportForm.vue'
+import PostCommentForm from '@/components/PostCommentForm.vue'
+import PostCommentEditorForm from '@/components/PostCommentEditorForm.vue'
+import * as types from '@/vuex/mutation_types.js'
 
 export default {
     name: "PostCommentListForm",
     components: {
-        ReportForm,
+        PostCommentForm,
+        PostCommentEditorForm,
     },
     props: {
-        commentItemList: null,
+        commentList: {
+            type: Array,
+            required: true,
+        },
     },
     data() {
         return {
+            commentLabel: '댓글',
             commentCount: 0,
-            isRecommentActivated: false,
-            commentIdForRecomment: 0,
-            reportButtonLabel: '댓글 신고',
-            reportReasons: [{
-                    id: 0,
-                    contents: '정치적인 내용',
-                },
-                {
-                    id: 1,
-                    contents: '선정적인 내용',
-                },
-                {
-                    id: 2,
-                    contents: '누군가를 모욕하는 내용'
-                },
-                {
-                    id: 3,
-                    contents: '기타'
-                }
-            ],
         }
     },
     mounted() {
-        this.commentCount = this.commentItemList === null ? 0 : this.commentItemList.length;
+        this.commentCount = this.commentList.length;
     },
     methods: {
-        reportComment(reportId) {
-            console.log('report comment: reportId=' + reportId);
+        addComment(commentCotents) {
+            this.$store.commit(types.ADD_COMMENT, commentCotents);
         },
     }
 }

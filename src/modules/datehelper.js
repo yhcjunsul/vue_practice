@@ -2,15 +2,24 @@ export function formatDate(datenow) {
     let date = new Date(datenow),
         month = '' + (date.getMonth() + 1),
         day = '' + date.getDate(),
-        year = date.getFullYear();
+        year = date.getFullYear(),
+        hours = '' + date.getHours(),
+        minutes = '' + date.getMinutes(),
+        seconds = '' + date.getSeconds();
 
-    if (month.length < 2) {
-        month = '0' + month;
+    var dateParts = [year, month, day];
+    var timeParts = [hours, minutes, seconds];
+
+    formatDoubleDigit(dateParts);
+    formatDoubleDigit(timeParts);
+
+    return dateParts.join('-') + ' ' + timeParts.join(':');
+}
+
+function formatDoubleDigit(dateArr) {
+    for (let i = 0; i < dateArr.length; i++) {
+        if (dateArr[i].length < 2) {
+            dateArr[i] = '0' + dateArr[i];
+        }
     }
-
-    if (day.length < 2) {
-        day = '0' + day;
-    }
-
-    return [year, month, day].join('-');
 }

@@ -11,14 +11,20 @@ export default new Vuex.Store({
         postContents: '',
         postTitle: '',
         postDate: 0,
-        commentItemList: [],
+        commentId: 0,
+        commentList: [],
+        replyList: [],
+        replyId: 0,
     },
     getters: {
         getIsLogined: state => state.isLogined,
         getPostContents: state => state.postContents,
         getPostTitle: state => state.postTitle,
         getPostDate: state => state.postDate,
-        getCommentItemList: state => state.commentItemList,
+        getCommentId: state => state.commentId,
+        getCommentList: state => state.commentList,
+        getReplyList: state => state.replyList,
+        getReplyId: state => state.replyId,
     },
     mutations: {
         [mutation_types.IS_LOGINED](state, isLogined) {
@@ -33,8 +39,26 @@ export default new Vuex.Store({
         [mutation_types.POST_DATE](state, postDate) {
             state.postDate = postDate
         },
-        [mutation_types.COMMENT_ITEM_LIST](state, commentItem) {
-            state.commentItemList.push(commentItem)
+        [mutation_types.ADD_COMMENT](state, commentContents) {
+            const commentItem = {
+                date: Date.now(),
+                contents: commentContents,
+                id: state.commentId,
+            }
+
+            state.commentList.push(commentItem);
+            state.commentId++;
+        },
+        [mutation_types.ADD_REPLY](state, payload) {
+            const replyItem = {
+                date: Date.now(),
+                contents: payload.contents,
+                id: state.replyId,
+                commentId: payload.commentId,
+            }
+
+            state.replyList.push(replyItem);
+            state.replyId++;
         }
     },
     actions: {
@@ -51,6 +75,6 @@ export default new Vuex.Store({
                     }
                 })
             })
-        }
+        },
     }
 })
