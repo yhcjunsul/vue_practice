@@ -1,0 +1,26 @@
+{
+    "useConfigFiles": true,
+    "plugins": {
+        "@vue/cli-plugin-babel": {},
+        "@vue/cli-plugin-eslint": {
+            "config": "prettier",
+            "lintOn": [
+                "save"
+            ]
+        },
+        "@vue/cli-plugin-unit-jest": {},
+        "@fortawesome/fontawesome-free": {},
+        "@mdi/font": {},
+        "vue-cli-plugin-axios": {},
+        "material-design-icons-iconfont": {},
+        "stylus": {},
+        "stylus-loader": {},
+        "vue-cli-plugin-vuetify": {},
+        "vuetify-loader": {},
+        "quill-image-drop-module": {},
+        "quill-image-resize": {},
+        "vue2-editor": {}
+    },
+    "router": true,
+    "vuex": true
+}
