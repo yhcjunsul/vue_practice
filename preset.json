@@ -8,18 +8,7 @@
                 "save"
             ]
         },
-        "@vue/cli-plugin-unit-jest": {},
-        "@fortawesome/fontawesome-free": {},
-        "@mdi/font": {},
-        "vue-cli-plugin-axios": {},
-        "material-design-icons-iconfont": {},
-        "stylus": {},
-        "stylus-loader": {},
-        "vue-cli-plugin-vuetify": {},
-        "vuetify-loader": {},
-        "quill-image-drop-module": {},
-        "quill-image-resize": {},
-        "vue2-editor": {}
+        "@vue/cli-plugin-unit-jest": {}
     },
     "router": true,
     "vuex": true
